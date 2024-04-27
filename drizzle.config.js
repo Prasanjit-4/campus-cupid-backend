@@ -7,8 +7,6 @@ export default {
     driver: "pg",
     dbCredentials: {
         connectionString: process.env.DATABASE_CONNECTION_STRING,
+        ssl: true
     },
-    ssl: {
-        rejectUnauthorized: true
-    }
 };

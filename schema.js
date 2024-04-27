@@ -19,7 +19,7 @@ export const matches = pgTable('matches', {
 });
 
 export const final_matches = pgTable('final_matches', {
-    u_id: text('u_id').primaryKey(),
+    u_id: text('u_id').notNull(),
     fm_id: text('m_id').notNull(),
 });
 

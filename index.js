@@ -16,7 +16,7 @@ app.get('/.well-known/assetlinks.json', (req, res) => {
             ],
             "target": {
                 "namespace": "android_app",
-                "package_name": "com.example.test_backend",
+                "package_name": "com.example.campuscupid",
                 "sha256_cert_fingerprints": [
                     process.env.SHA256_CERT
                 ]

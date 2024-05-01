@@ -20,7 +20,7 @@ async function sendMail(recipient, token) {
         to: recipient, // list of receivers
         subject: "Hello ✔", // Subject line
         text: `Token: ${token}`, // plain text body with token
-        html: `<b>Token: ${token}</b>`, // html body with token
+        html: `<b><a href="www.campuscupid.social/login/${token}"></b>`, // html body with token
     });
 
     return info.messageId;

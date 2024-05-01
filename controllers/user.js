@@ -22,7 +22,7 @@ async function createMatch(req, res) {
         res.status(200).send(insertres);
     }
     else {
-        res.status(400).send("User not found");
+        res.status(202).send("User not found");
     }
 };
 
@@ -33,10 +33,11 @@ async function deleteMatch(req, res) {
 };
 
 async function updateMatchPreference(req, res) {
-    const updateMatchPreference = await db.update(schema.matches)
-        .set({ pref: req.params.pref })
-        .where(and(eq(schema.matches.u_id, req.params.uid), eq(schema.matches.m_id, req.params.mid))).returning();
-    console.log(updateMatchPreference);
+    console.log(req.body.pref_list);
+    // const updateMatchPreference = await db.update(schema.matches)
+    //     .set({ pref: req.params.pref })
+    //     .where(and(eq(schema.matches.u_id, req.params.uid), eq(schema.matches.m_id, req.params.mid))).returning();
+    // console.log(updateMatchPreference);
     res.send(updateMatchPreference);
 };
 

@@ -5,7 +5,7 @@ import 'dotenv/config';
 
 
 
-function connectDatbase(url) {
+function connectDatabase(url) {
     const client = postgres(url, {
         ssl: {
             rejectUnauthorized: true,
@@ -16,4 +16,4 @@ function connectDatbase(url) {
     return db;
 }
 
-export default connectDatbase;
+export default connectDatabase;

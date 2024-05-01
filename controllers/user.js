@@ -3,25 +3,31 @@ import connectDatabase from "../database/db.js";
 import * as schema from "../schema.js";
 import { eq, and } from "drizzle-orm";
 import 'dotenv/config';
-import { sendMail } from "../services/mail.js";
+import { sendMail, sendInviteMail } from "../services/mail.js";
 import { generateToken, verifyToken } from "../services/auth.js";
 
 
 const db = connectDatabase(process.env.DATABASE_CONNECTION_STRING);
 
 async function createMatch(req, res) {
-    const insertres = await db.insert(schema.matches).values({
-        "u_id": req.params.uid,
-        "m_id": req.params.mid,
-        "pref": req.params.pref,
-        "status": req.params.status
-    }).returning();
-    console.log(insertres);
-    res.send(insertres);
+    const check = await checkUser(req.params.uid);
+    if (check) {
+        const insertres = await db.insert(schema.matches).values({
+            "u_id": req.params.uid,
+            "m_id": req.params.mid,
+            "pref": req.params.pref,
+            "status": req.params.status
+        }).returning();
+        console.log(insertres);
+        res.send(insertres);
+    }
+    else {
+        res.status(400).send("User not found");
+    }
 };
 
 async function deleteMatch(req, res) {
-    const deletedMatch = await db.delete(schema.matches).where(and(eq(schema.matches.u_id, req.params.u_id), eq(schema.matches.m_id, req.params.m_id)));
+    const deletedMatch = await db.delete(schema.matches).where(and(eq(schema.matches.u_id, req.params.uid), eq(schema.matches.m_id, req.params.mid)));
     console.log(deletedMatch);
     res.send(deletedMatch);
 };
@@ -35,7 +41,7 @@ async function updateMatchPreference(req, res) {
 };
 
 async function inviteUser(req, res) {
-    const msgId = await sendMail(req.params.email);
+    const msgId = await sendInviteMail(req.params.email);
     console.log(msgId);
     res.send(msgId);
 };
@@ -52,9 +58,43 @@ async function login(req, res) {
 }
 
 async function sendMagicLink(req, res) {
+    const check = await checkUser(req.params.email.split("@")[0]);
+    if (check == false) {
+        const addUser = await db.insert(schema.users).values({
+            "email_id": req.params.email,
+            "net_id": req.params.email.split("@")[0],
+            "avatar_id": "0000000",
+            "num_invites": 0
+        }).returning();
+    }
     const token = generateToken(req.params.email);
     await sendMail(req.params.email, token);
 }
+
+
+async function checkUserRoute(req, res, u_id) {
+    const result = await db.select().from(schema.users).where(eq(schema.users.net_id, req.params.uid));
+    if (result.length == 0) {
+        res.send(false);
+        return false;
+    }
+    else {
+        res.send(true);
+        return true;
+    }
+}
+
+async function checkUser(u_id) {
+    const result = await db.select().from(schema.users).where(eq(schema.users.net_id, u_id));
+    if (result.length == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+
 
 export { createMatch };
 export { deleteMatch };
@@ -63,3 +103,4 @@ export { inviteUser };
 export { viewMatches };
 export { login };
 export { sendMagicLink };
+export { checkUserRoute };

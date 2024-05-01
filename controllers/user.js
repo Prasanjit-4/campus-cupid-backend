@@ -10,7 +10,7 @@ import { generateToken, verifyToken } from "../services/auth.js";
 const db = connectDatabase(process.env.DATABASE_CONNECTION_STRING);
 
 async function createMatch(req, res) {
-    const check = await checkUser(req.params.uid);
+    const check = await checkUser(req.params.mid);
     if (check) {
         const insertres = await db.insert(schema.matches).values({
             "u_id": req.params.uid,

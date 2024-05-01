@@ -15,15 +15,20 @@ router.post('/invite', inviteUser);
 router.get('/sendMagicLink', sendMagicLink);
 router.get('/login', login);
 router.get('/assetlinks.json', (req, res) => {
-    res.json([{
-        "relation": ["delegate_permission/common.handle_all_urls"],
-        "target": {
-            "namespace": "android_app",
-            "package_name": "com.example",
-            "sha256_cert_fingerprints":
-                [""]
+    res.json([
+        {
+            "relation": [
+                "delegate_permission/common.handle_all_urls"
+            ],
+            "target": {
+                "namespace": "android_app",
+                "package_name": "com.example.test_backend",
+                "sha256_cert_fingerprints": [
+                    process.env.SHA256_CERT
+                ]
+            }
         }
-    }]);
+    ]);
 });
 
 export { router };

@@ -36,7 +36,8 @@ async function inviteUser(req, res) {
 };
 
 async function viewMatches(req, res) {
-    const result = await db.select().from(schema.matches);
+    console.log(req.body.u_id);
+    const result = await db.select().from(schema.matches).where(eq(schema.matches.u_id, req.body.u_id));
     console.log(result);
     res.json(result);
 }

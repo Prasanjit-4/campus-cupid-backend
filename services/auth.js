@@ -8,6 +8,7 @@ function generateToken(payload) {
 
 function verifyToken(token) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(jwt.verify(token, process.env.JWT_SECRET));
     return decoded;
 }
 

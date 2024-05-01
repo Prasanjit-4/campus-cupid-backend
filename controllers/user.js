@@ -54,7 +54,6 @@ async function login(req, res) {
 async function sendMagicLink(req, res) {
     const token = generateToken(req.params.email);
     await sendMail(req.params.email, token);
-    res.send(token);
 }
 
 export { createMatch };

@@ -8,6 +8,22 @@ const app = express();
 
 const PORT = process.env.PORT;
 
+app.get('/.well-known/assetlinks.json', (req, res) => {
+    res.json([
+        {
+            "relation": [
+                "delegate_permission/common.handle_all_urls"
+            ],
+            "target": {
+                "namespace": "android_app",
+                "package_name": "com.example.test_backend",
+                "sha256_cert_fingerprints": [
+                    process.env.SHA256_CERT
+                ]
+            }
+        }
+    ]);
+});
 app.use(express.json());
 app.use('/api/users', router);
 

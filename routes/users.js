@@ -16,7 +16,7 @@ router.get('/sendMagicLink/:email', sendMagicLink);
 
 
 router.get('/login/:token', login);
-router.get('/assetlinks.json', (req, res) => {
+router.get('/.well-known/assetlinks.json', (req, res) => {
     res.json([
         {
             "relation": [

@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/viewmatches/:uid", viewMatches)
 router.put("/update/:uid/:mid/:pref", updateMatchPreference)
 router.delete("/delete/:uid/:mid", deleteMatch);
-router.post('/create/:uid/:mid/:pref/:status', createMatch);
+router.post('/create/:uid/:mid/:pref/', createMatch);
 router.post('/invite/:email', inviteUser);
 router.get('/sendMagicLink/:email', sendMagicLink);
 router.get('/login/:token', login);

@@ -16,10 +16,10 @@ async function createMatch(req, res) {
             "u_id": req.params.uid,
             "m_id": req.params.mid,
             "pref": req.params.pref,
-            "status": req.params.status
+            "status": "U"
         }).returning();
         console.log(insertres);
-        res.send(insertres);
+        res.status(200).send(insertres);
     }
     else {
         res.status(400).send("User not found");

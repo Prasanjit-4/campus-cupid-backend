@@ -7,13 +7,15 @@ const router = express.Router();
 
 
 // create a match
-router.post('/', createMatch).get("/", viewMatches).put("/", updateMatchPreference).delete("/", deleteMatch);
+router.get("/viewmatches/:uid", viewMatches)
+router.put("/update/:uid/:mid/:pref", updateMatchPreference)
+router.delete("/delete/:uid/:mid", deleteMatch);
+router.post('/create/:uid/:mid/:pref/:status', createMatch);
+router.post('/invite/:email', inviteUser);
+router.get('/sendMagicLink/:email', sendMagicLink);
 
-// invite a user
-router.post('/invite', inviteUser);
 
-router.get('/sendMagicLink', sendMagicLink);
-router.get('/login', login);
+router.get('/login/:token', login);
 router.get('/assetlinks.json', (req, res) => {
     res.json([
         {

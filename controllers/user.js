@@ -10,46 +10,50 @@ import { generateToken, verifyToken } from "../services/auth.js";
 const db = connectDatabase(process.env.DATABASE_CONNECTION_STRING);
 
 async function createMatch(req, res) {
-    const insertres = await db.insert(schema.matches).values(req.body).returning();
+    const insertres = await db.insert(schema.matches).values({
+        "u_id": req.params.uid,
+        "m_id": req.params.mid,
+        "pref": req.params.pref,
+        "status": req.params.status
+    }).returning();
     console.log(insertres);
-    res.send(req.body);
+    res.send(insertres);
 };
 
 async function deleteMatch(req, res) {
-    const deletedMatch = await db.delete(schema.matches).where(and(eq(schema.matches.u_id, req.body.u_id), eq(schema.matches.m_id, req.body.m_id)));
+    const deletedMatch = await db.delete(schema.matches).where(and(eq(schema.matches.u_id, req.params.u_id), eq(schema.matches.m_id, req.params.m_id)));
     console.log(deletedMatch);
     res.send(deletedMatch);
 };
 
 async function updateMatchPreference(req, res) {
     const updateMatchPreference = await db.update(schema.matches)
-        .set({ pref: req.body.pref })
-        .where(and(eq(schema.matches.u_id, req.body.u_id), eq(schema.matches.m_id, req.body.m_id))).returning();
+        .set({ pref: req.params.pref })
+        .where(and(eq(schema.matches.u_id, req.params.uid), eq(schema.matches.m_id, req.params.mid))).returning();
     console.log(updateMatchPreference);
     res.send(updateMatchPreference);
 };
 
 async function inviteUser(req, res) {
-    const msgId = await sendMail(req.body.email);
+    const msgId = await sendMail(req.params.email);
     console.log(msgId);
     res.send(msgId);
 };
 
 async function viewMatches(req, res) {
-    console.log(req.body.u_id);
-    const result = await db.select().from(schema.matches).where(eq(schema.matches.u_id, req.body.u_id));
+    const result = await db.select().from(schema.matches).where(eq(schema.matches.u_id, req.params.uid));
     console.log(result);
     res.json(result);
 }
 
 async function login(req, res) {
-    const decoded = verifyToken(req.body.token);
+    const decoded = verifyToken(req.params.token);
     res.send(decoded);
 }
 
 async function sendMagicLink(req, res) {
-    const token = generateToken(req.body.email);
-    await sendMail(req.body.email, token);
+    const token = generateToken(req.params.email);
+    await sendMail(req.params.email, token);
     res.send(token);
 }
 

@@ -28,4 +28,21 @@ async function sendMail(recipient, token) {
     // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 }
 
+async function sendInviteMail(recipient, token) {
+    // send mail with defined transport object
+    console.log(token);
+    const info = await transporter.sendMail({
+        from: '"Campus Cupid App" <campuscupid1@gmail.com>', // sender address
+        to: recipient, // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: `Token: ${token}`, // plain text body with token
+        html: `<b><a href="www.campuscupid.social/api/users/login/${token}">Sign Up</a></b>`, // html body with token
+    });
+
+    return info.messageId;
+    // console.log("Message sent: %s", info.messageId);
+    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+}
+
 export { sendMail };
+export { sendInviteMail };

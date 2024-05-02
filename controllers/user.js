@@ -1,7 +1,7 @@
 import express from "express";
 import connectDatabase from "../database/db.js";
 import * as schema from "../schema.js";
-import { eq, and } from "drizzle-orm";
+import { eq, and, or } from "drizzle-orm";
 import 'dotenv/config';
 import { sendMail, sendInviteMail } from "../services/mail.js";
 import { generateToken, verifyToken } from "../services/auth.js";
@@ -94,6 +94,16 @@ async function checkUser(u_id) {
     }
 }
 
+async function viewFinalMatches(req, res) {
+    const result = await db.select().from(schema.final_matches).where(or(eq(schema.final_matches.u_id, req.params.uid), eq(schema.final_matches.fm_id, req.params.uid)));
+    if (result.length == 0) {
+        res.status(202).send("No final matches found");
+    }
+    else {
+        res.status(200).json(result);
+    }
+}
+
 
 
 export { createMatch };
@@ -104,3 +114,4 @@ export { viewMatches };
 export { login };
 export { sendMagicLink };
 export { checkUserRoute };
+export { viewFinalMatches };

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createMatch, deleteMatch, updateMatchPreference, inviteUser, viewMatches, sendMagicLink, login, checkUserRoute } from "../controllers/user.js";
+import { createMatch, deleteMatch, updateMatchPreference, inviteUser, viewMatches, sendMagicLink, login, checkUserRoute, viewFinalMatches } from "../controllers/user.js";
 
 
 
@@ -16,6 +16,7 @@ router.post('/invite/:email', inviteUser);
 router.get('/sendMagicLink/:email', sendMagicLink);
 router.get('/login/:token', login);
 router.get('/check/:uid', checkUserRoute);
+router.get('/finalmatches/:uid', viewFinalMatches);
 // router.get('/.well-known/assetlinks.json', (req, res) => {
 //     res.json([
 //         {

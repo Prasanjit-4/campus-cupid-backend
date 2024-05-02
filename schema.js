@@ -3,7 +3,6 @@ import { pgTable, text, integer, pgSchema } from 'drizzle-orm/pg-core';
 export const users = pgTable('users', {
     email_id: text('email_id').primaryKey(),
     net_id: text('net_id').notNull(),
-    avatar_id: text('avatar_id').notNull(),
     num_invites: integer('num_invites').notNull(),
 });
 

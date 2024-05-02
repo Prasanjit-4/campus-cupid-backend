@@ -34,10 +34,10 @@ async function deleteMatch(req, res) {
 
 async function updateMatchPreference(req, res) {
     console.log(req.body.pref_list);
-    // const updateMatchPreference = await db.update(schema.matches)
-    //     .set({ pref: req.params.pref })
-    //     .where(and(eq(schema.matches.u_id, req.params.uid), eq(schema.matches.m_id, req.params.mid))).returning();
-    // console.log(updateMatchPreference);
+    const updateMatchPreference = await db.update(schema.matches)
+        .set({ pref: req.params.pref })
+        .where(and(eq(schema.matches.u_id, req.params.uid), eq(schema.matches.m_id, req.params.mid))).returning();
+    console.log(updateMatchPreference);
     res.send(updateMatchPreference);
 };
 
@@ -64,7 +64,6 @@ async function sendMagicLink(req, res) {
         const addUser = await db.insert(schema.users).values({
             "email_id": req.params.email,
             "net_id": req.params.email.split("@")[0],
-            "avatar_id": "0000000",
             "num_invites": 0
         }).returning();
     }

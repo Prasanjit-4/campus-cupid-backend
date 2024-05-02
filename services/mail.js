@@ -18,7 +18,7 @@ async function sendMail(recipient, token) {
     const info = await transporter.sendMail({
         from: '"Campus Cupid App" <campuscupid1@gmail.com>', // sender address
         to: recipient, // list of receivers
-        subject: "Hello ✔", // Subject line
+        subject: "Login to Campus Cupid", // Subject line
         text: `Token: ${token}`, // plain text body with token
         html: `<b><a href="www.campuscupid.social/api/users/login/${token}">Login</a></b>`, // html body with token
     });
@@ -34,9 +34,9 @@ async function sendInviteMail(recipient, token) {
     const info = await transporter.sendMail({
         from: '"Campus Cupid App" <campuscupid1@gmail.com>', // sender address
         to: recipient, // list of receivers
-        subject: "Hello ✔", // Subject line
+        subject: "Install Campus Cupid", // Subject line
         text: `Token: ${token}`, // plain text body with token
-        html: `<b><a href="www.campuscupid.social/api/users/login/${token}">Sign Up</a></b>`, // html body with token
+        html: `<b><a href="http://campus-cupid-site.s3-website-us-east-1.amazonaws.com/">Installer Link</a></b>`, // html body with token
     });
 
     return info.messageId;
